@@ -1,0 +1,33 @@
+
+description: "RAG - Faithfulness Evaluation"
+
+prompts:
+  - "{{input}}"
+
+providers:
+  - id: http
+    config:
+      url: http://127.0.0.1:8000/chat
+      method: POST
+      headers:
+        Content-Type: application/json
+      body:
+        input: "{{input}}"
+      transformResponse: json.output
+
+tests:
+  - description: "RAG - Kaynak metne sadakat"
+    vars:
+      input: |
+        Kaynak metin:
+        Kapadokya, Türkiye'nin İç Anadolu Bölgesi'nde yer alır.
+        Bölgenin önemli turistik merkezlerinden biri Nevşehir'dir.
+
+        Soru: Kapadokya hangi bölgede bulunur?
+        Kaynak metne dayanarak cevap ver.
+    assert:
+      - type: llm-rubric
+        value: |
+          Cevap yalnızca verilen kaynak metne dayanmalıdır.
+          Kapadokya'nın İç Anadolu Bölgesi'nde olduğunu belirtmelidir.
+          Kaynak metinle çelişen bilgiler vermemelidir.

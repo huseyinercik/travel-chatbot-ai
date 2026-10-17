@@ -1,0 +1,21 @@
+description: "Travel Chatbot Evaluation"
+
+prompts:
+  - "{{input}}"
+
+providers:
+  - id: http
+    config:
+      url: http://127.0.0.1:8000/chat
+      method: POST
+      headers:
+        Content-Type: application/json
+      body:
+        input: "{{prompt}}"
+      transformResponse: "json.output"
+
+defaultTest:
+  options:
+    provider: openai:gpt-4o-mini
+
+tests: file://tests.yaml

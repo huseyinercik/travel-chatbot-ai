@@ -1,0 +1,25 @@
+
+description: "RAG - Judge Negative Control"
+
+prompts:
+  - "{{input}}"
+
+providers:
+  - echo
+
+tests:
+  - description: "Negatif kontrol - Kaynakla çelişen cevap"
+    vars:
+      input: |
+        Kaynak metin:
+        Kapadokya, Türkiye'nin İç Anadolu Bölgesi'nde yer alır.
+
+        Soru: Kapadokya hangi bölgede bulunur?
+        Cevap: Kapadokya, Ege Bölgesi'nde yer alır.
+    assert:
+      - type: llm-rubric
+        value: |
+          Cevap, yalnızca verilen kaynak metne göre değerlendirilmelidir.
+          Kaynak metin Kapadokya'nın İç Anadolu Bölgesi'nde olduğunu
+          belirtmektedir. Cevapta Ege Bölgesi'nde olduğu söylenmesi
+          kaynakla çelişir ve test başarısız olmalıdır.

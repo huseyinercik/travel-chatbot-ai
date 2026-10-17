@@ -1,0 +1,124 @@
+- description: "Türkiye'nin başkenti"
+  vars:
+    input: "Türkiye'nin başkenti neresidir?"
+  assert:
+    - type: contains
+      value: "Ankara"
+
+- description: "Kapadokya'nın bulunduğu bölge"
+  vars:
+    input: "Kapadokya hangi bölgede bulunur?"
+  assert:
+    - type: contains
+      value: "Anadolu Bölgesi"
+
+- description: "Kapadokya cevabının anlamsal doğruluğu"
+  vars:
+    input: "Kapadokya hangi bölgede bulunur?"
+  assert:
+    - type: llm-rubric
+      value: |
+        Yanıt, Kapadokya'nın Türkiye'nin İç Anadolu Bölgesi'nde
+        bulunduğunu doğru biçimde belirtmelidir.
+        Yalnızca coğrafi açıdan doğru ve soruyla ilgili yanıtları
+        başarılı kabul et.
+
+
+- description: "Answer Relevance - Soruyu gerçekten yanıtlıyor mu?"
+  vars:
+    input: "Kapadokya hangi bölgede bulunur?"
+  assert:
+    - type: llm-rubric
+      value: |
+        Yanıt, kullanıcının Kapadokya'nın hangi coğrafi bölgede
+        bulunduğu sorusunu doğrudan yanıtlamalıdır.
+        İç Anadolu Bölgesi'nde bulunduğunu belirtmelidir.
+        Yalnızca Kapadokya'nın turistik özelliklerini anlatan
+        ancak bulunduğu bölgeyi belirtmeyen yanıt başarısız olmalıdır.
+
+
+
+# NEGATIVE CONTROL TEST:
+# Echo provider, gerçek chatbot API'sini çağırmadan test girdisini
+# doğrudan yanıt olarak döndürür. Böylece llm-rubric hakeminin
+# bilerek yanlış verilen bir yanıtı FAIL olarak işaretleyip
+# işaretlemediği kontrol edilir. Normal test paketine dahil edilmemelidir.
+
+#- description: "Negatif kontrol - Yanlış cevabı reddetmeli"
+#  provider: echo
+#  vars:
+#    input: "Kapadokya, Türkiye'nin Marmara Bölgesi'ndedir."
+#  assert:
+#    - type: llm-rubric
+#      value: |
+#        Yanıt, Kapadokya'nın İç Anadolu Bölgesi'nde
+#        bulunduğunu doğru biçimde belirtmelidir.
+#        Kapadokya'nın Marmara Bölgesi'nde bulunduğunu
+#        söyleyen yanıt yanlış kabul edilmelidir.
+
+
+- description: "Hallucination - Doğrulanamayan bilgiyi uydurmamalı"
+  vars:
+    input: "Kapadokya'daki Zümrüt Kristal Müzesi'nin ziyaret saatleri nedir?"
+  assert:
+    - type: llm-rubric
+      metric: Hallucination
+      value: |
+        Yanıt, adı geçen müzenin varlığını veya ziyaret saatlerini
+        doğrulanmış gerçekler olarak sunmamalıdır.
+        Bilgi doğrulanamıyorsa bunu açıkça belirtmeli ve
+        ziyaret saatleri uydurmamalıdır.
+        Doğrulanmamış saatleri kesin bilgi gibi veren yanıt başarısızdır.
+
+# description: "Hallucination - Negatif kontrol"
+# provider: echo
+# vars:
+#   input: "Zümrüt Kristal Müzesi her gün 09:00-20:00 saatleri arasında açıktır."
+# assert:
+#   - type: llm-rubric
+#     metric: Hallucination
+#     value: |
+#       Yanıt, Zümrüt Kristal Müzesi'nin varlığını ve
+#       ziyaret saatlerini doğrulanmış gerçekler olarak
+#       sunmamalıdır.
+#       Doğrulanmamış ziyaret saatlerini kesin bilgi
+#       olarak veren yanıt başarısız olmalıdır.
+
+- description: "Not Contains - Yanlis bilgi bulunmamali"
+  vars:
+    input: "Türkiye'nin başkenti neresidir?"
+  assert:
+    - type: not-contains
+      value: "İstanbul"
+
+- description: "Contains Any - Bolge ifadelerinden biri"
+  vars:
+    input: "Kapadokya hangi bölgede bulunur?"
+  assert:
+    - type: contains-any
+      value:
+        - "İç Anadolu"
+        - "Anadolu Bölgesi"
+
+- description: "Contains All - Temel bilgiler"
+  vars:
+    input: "Kapadokya hangi bölgede bulunur?"
+  assert:
+    - type: contains-all
+      value:
+        - "Kapadokya"
+        - "Orta Anadolu"
+
+- description: "Latency - Yanit suresi"
+  vars:
+    input: "Türkiye'nin başkenti neresidir?"
+  assert:
+    - type: latency
+      threshold: 5000
+
+- description: "Factuality - Referans cevapla tutarlilik"
+  vars:
+    input: "Türkiye'nin başkenti neresidir?"
+  assert:
+    - type: factuality
+      value: "Türkiye'nin başkenti Ankara'dır."

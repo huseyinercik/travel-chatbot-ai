@@ -1,0 +1,25 @@
+.env
+.venv/
+__pycache__/
+.pytest_cache/
+# Environment secrets
+.env.*
+!.env.example
+
+# Python generated files
+*.py[cod]
+
+# Node.js dependencies
+node_modules/
+
+# Promptfoo local cache and generated results
+.promptfoo/
+promptfoo/.promptfoo/
+promptfoo/node_modules/
+promptfoo-results/
+
+# Promptfoo generated evaluation reports
+/promptfoo/hallucination-negative-control.json
+/promptfoo/hallucination-normal.json
+/promptfoo/judge-smoke.json
+/promptfoo/results.json
