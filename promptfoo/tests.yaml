@@ -122,3 +122,11 @@
   assert:
     - type: factuality
       value: "Türkiye'nin başkenti Ankara'dır."
+
+- description: "Factuality - Cevap gerçekten doğru mu?"
+  vars:
+    input: "Kapadokya hangi bölgede bulunur?"
+  assert:
+    - type: factuality
+      value: "Kapadokya, Türkiye'nin İç Anadolu Bölgesi'nde (Orta Anadolu olarak da bilinir) yer almaktadır."
+      
