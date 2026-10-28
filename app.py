@@ -45,7 +45,7 @@ def chat(request: ChatRequest):
                 {"role": "user", "content": request.input},
             ],
             temperature=0,
-            max_tokens=350,
+            max_tokens=1500,
         )
 
         answer = response.choices[0].message.content

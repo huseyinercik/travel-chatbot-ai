@@ -16,6 +16,16 @@ providers:
 
 defaultTest:
   options:
-    provider: openai:gpt-4o-mini
+    provider:
+      text:
+        id: openai:gpt-4o-mini
+      embedding:
+        id: openai:embedding:text-embedding-3-small
+    factuality:
+      subset: 0.8
+      superset: 0.7
+      agree: 1.0
+      disagree: 0.0
+      differButFactual: 0.9
 
 tests: file://tests.yaml
