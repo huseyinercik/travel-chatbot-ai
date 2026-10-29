@@ -201,14 +201,15 @@
     - type: llm-rubric
       metric: "Clarification and Assumptions"
       value: |
-        Başlangıç şehri belirtilmediği için yanıt aşağıdaki
-        koşullardan en az birini karşılamalıdır:
-        1. Kullanıcıya hangi şehirden hareket edeceğini sormalı
-           veya bu bilgiyi belirtmesini istemeli.
-        2. Ulaşım rotasının başlangıç şehrine bağlı olduğunu
-           açıkça belirtmeli.
-        Anlam bakımından eşdeğer ifadeler kabul edilmelidir.
-        Başlangıç şehrini kesinmiş gibi varsaymak başarısızdır.
+        Başlangıç şehri belirtilmediği için yanıtın, hangi şehirden
+        hareket edileceğini açıkça sorması veya kullanıcının bu bilgiyi
+        belirtmesini istemesi yeterlidir. Örneğin, "Hangi şehirden
+        hareket edeceğinizi belirtirseniz, daha spesifik bilgiler
+        verebilirim" ifadesi bu koşulu karşılar ve PASS olmalıdır.
+        Yanıtın ayrıca genel ulaşım seçenekleri sunması başarısızlık
+        nedeni değildir. Başlangıç şehrini hiç sormadan ve bu bilginin
+        gerekli olduğunu belirtmeden tek bir başlangıç noktası varsayarsa
+        FAIL olmalıdır. Anlamca eşdeğer ifadeleri kabul et.
 
 - description: "18 - Language Compliance - İngilizce yanıt"
   vars:
