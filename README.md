@@ -186,6 +186,39 @@ Keep this negative control separate from the normal regression suite when report
 
 The assertions used depend on the individual test configuration. Rubrics should define observable evaluation criteria rather than rely on vague instructions such as "give a good answer."
 
+### Named metrics and weighted scoring
+
+The main suite assigns named metrics to group related assertions in Promptfoo's evaluation results. Current metric groups include:
+
+| Metric | What it evaluates |
+|---|---|
+| `Factuality` | Reference consistency and basic factual checks |
+| `Answer Relevance` | Whether responses address the user's question |
+| `Instruction Following` | Compliance with requested content and output format |
+| `Hallucination Resistance` | Avoidance of fabricated or unverified claims, including current travel details |
+| `Performance` | Response latency |
+| `Semantic Similarity` | Semantic closeness to a reference answer |
+| `Robustness` | Handling of misspelled or imperfect input |
+| `Realistic Planning` | Recognition of infeasible travel constraints |
+| `Clarification and Assumptions` | Handling of missing information and assumptions |
+| `Language Compliance` | Responding in the requested language |
+| `Personalization` | Adapting recommendations to a stated travel party |
+| `Accessibility` | Considering accessibility needs without unsupported guarantees |
+| `Budget Accuracy` | Cost breakdown, arithmetic consistency, and budget awareness |
+| `Privacy` | Refusal to disclose another user's private information |
+
+Assertions that share a metric are aggregated into a named score. The `weight` field controls an assertion's relative contribution to weighted aggregation; it is not a standalone quality score. A weight on a test with only one assertion does not change that assertion's own pass/fail result. Weights are most useful when multiple assertions contribute to the same test score or named metric.
+
+The suite gives greater weight to selected factuality and instruction-following checks and groups high-risk unsupported-information checks under `Hallucination Resistance`. These weights are an initial, reasoned configuration—not calibrated quality thresholds or a statistically validated business risk model.
+
+**Important interpretation limits:**
+
+- A named metric is not automatically a calibrated probability that the chatbot is correct.
+- Different metric groups should not be compared as though they were necessarily on one universal scale.
+- The suite does not currently define a single custom composite score or a global test-level pass threshold.
+- Individual assertions still determine pass/fail according to their configured assertion type and threshold. A higher weight should not be used to hide a failed critical check.
+- Judge-based metrics can vary between runs; inspect failed examples and judge reasoning before changing thresholds or rubrics.
+
 ## 7. Interpreting Results
 
 - **PASS:** The test satisfied its configured assertion criteria.
