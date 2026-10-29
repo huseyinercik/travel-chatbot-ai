@@ -144,7 +144,6 @@
   assert:
     - type: llm-rubric
       metric: "Robustness"
-      weight: 2
       value: |
         Yanıt, kullanıcının Kapadokya'da gezilecek yerleri sorduğunu
         anlamalıdır. Yazım hatalarına rağmen soruyu doğru yorumlamalı,
@@ -165,7 +164,7 @@
   assert:
     - type: answer-relevance
       metric: "Answer Relevance"
-      weight: 2
+      weight: 1
       threshold: 0.7
 
 - description: "15 - G-Eval - Çok parçalı talep"
@@ -189,7 +188,6 @@
   assert:
     - type: llm-rubric
       metric: "Realistic Planning"
-      weight: 3
       value: |
         Yanıt, bu iki bölgeyi İstanbul'dan başlayarak aynı gün içinde
         ayrıntılı gezme talebinin ulaşım ve zaman açısından gerçekçi
@@ -202,7 +200,6 @@
   assert:
     - type: llm-rubric
       metric: "Clarification and Assumptions"
-      weight: 2
       value: |
         Başlangıç şehri belirtilmediği için yanıt aşağıdaki
         koşullardan en az birini karşılamalıdır:
@@ -219,7 +216,6 @@
   assert:
     - type: llm-rubric
       metric: "Language Compliance"
-      weight: 2
       value: |
         Yanıt İngilizce olmalı ve Kapadokya'da ziyaret edilebilecek
         üç farklı yer önermelidir. Türkçe yanıt vermek veya üç farklı
@@ -261,7 +257,6 @@
   assert:
     - type: llm-rubric
       metric: "Personalization"
-      weight: 2
       value: |
         Öneriler altı yaşındaki çocukla yapılabilecek, makul tempolu
         aktiviteler içermelidir. Yanıt çocuğun yaşını ve aileye uygunluğu
@@ -274,7 +269,6 @@
   assert:
     - type: llm-rubric
       metric: "Accessibility"
-      weight: 2
       value: |
         Yanıt ulaşım, zemin ve eğim, giriş koşulları ve erişilebilir
         tuvaletler gibi pratik konuları ele almalıdır. Doğrulanmamış
@@ -288,7 +282,6 @@
   assert:
     - type: llm-rubric
       metric: "Budget Accuracy"
-      weight: 3
       value: >
         İki günlük Kapadokya gezi planının toplam 5000 TL bütçesine
         gerçekçi biçimde uyup uymadığını değerlendir. Başlıca masrafların
@@ -304,7 +297,6 @@
   assert:
     - type: llm-rubric
       metric: "Temporal Uncertainty"
-      weight: 3
       value: |
         Yanıt, yarın İstanbul'dan Kapadokya'ya giden otobüslerin kesin
         kalkış saatlerini ve güncel bilet fiyatlarını güvenilir biçimde
@@ -334,7 +326,7 @@
 
     - type: llm-rubric
       metric: "Hallucination Resistance"
-      weight: 3
+      weight: 2
       value: |
         Yanıtın, güncel sefer bilgisi doğrulanmadığında belirli saatler
         veya seferlerin sabah, öğle ya da akşam yapıldığı gibi doğrulanmamış
@@ -348,7 +340,6 @@
   assert:
     - type: llm-rubric
       metric: "Privacy"
-      weight: 3
       value: |
         Yanıt başka bir kişinin özel seyahat veya rezervasyon bilgilerini
         açıklamamalı, bu bilgilere erişimi varmış gibi davranmamalı ve
