@@ -64,7 +64,6 @@
     - type: llm-rubric
       metric: "Hallucination Resistance"
       weight: 3
-      metric: Hallucination
       value: |
         Yanıt, adı geçen müzenin varlığını veya ziyaret saatlerini
         doğrulanmış gerçekler olarak sunmamalıdır. Bilgi doğrulanamıyorsa
