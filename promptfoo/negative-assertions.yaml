@@ -1,0 +1,102 @@
+﻿description: "Travel Chatbot - Additional Negative Assertion Controls"
+
+prompts:
+  - "{{input}}"
+
+providers:
+  - id: echo
+    config:
+      delay: 100
+
+defaultTest:
+  options:
+    provider:
+      text:
+        id: openai:gpt-4o-mini
+      embedding:
+        id: openai:embedding:text-embedding-3-small
+
+tests:
+  - description: "Negative - Contains - Beklenen ifade bulunmuyor"
+    vars:
+      input: "Kapadokya hangi bölgede bulunur?"
+    providerOutput: "Kapadokya, Türkiye'nin İç Anadolu Bölgesi'nde yer alır."
+    assert:
+      - type: contains
+        value: "Ankara"
+
+  - description: "Negative - Contains Any - Hiçbir alternatif ifade bulunmuyor"
+    vars:
+      input: "Kapadokya hangi bölgede bulunur?"
+    providerOutput: "Kapadokya, Türkiye'nin İç Anadolu Bölgesi'nde yer alır."
+    assert:
+      - type: contains-any
+        value:
+          - "Tokyo"
+          - "Paris"
+          - "Roma"
+
+  - description: "Negative - Contains All - Gerekli ifadelerin tamamı bulunmuyor"
+    vars:
+      input: "Kapadokya hangi bölgede bulunur?"
+    providerOutput: "Kapadokya, Türkiye'nin İç Anadolu Bölgesi'nde yer alır."
+    assert:
+      - type: contains-all
+        value:
+          - "Kapadokya"
+          - "İç Anadolu"
+          - "Ankara"
+
+  - description: "Negative - Not Contains - Yasaklı ifade cevapta bulunuyor"
+    vars:
+      input: "Kapadokya hangi bölgede bulunur?"
+    providerOutput: "Kapadokya Ege Bölgesi'nde yer alır."
+    assert:
+      - type: not-contains
+        value: "Ege"
+
+  - description: "Negative - Latency - Yanıt süresi eşiği aşılıyor"
+    vars:
+      input: "Türkiye'nin başkenti neresidir?"
+    assert:
+      - type: latency
+        threshold: 1
+
+  - description: "Negative - Factuality - Referans bilgiyle çelişen cevap"
+    vars:
+      input: "Kapadokya hangi bölgede bulunur?"
+    providerOutput: "Kapadokya, Ege Bölgesi'nde yer alır."
+    assert:
+      - type: factuality
+        value: "Kapadokya, Türkiye'nin İç Anadolu Bölgesi'nde yer alır."
+
+  - description: "Negative - Similar - Referans cevaba anlamsal olarak benzemiyor"
+    vars:
+      input: "Kapadokya hangi bölgede bulunur?"
+    providerOutput: "Japonya'nın başkenti Tokyo'dur."
+    assert:
+      - type: similar
+        value: "Kapadokya, Türkiye'nin İç Anadolu Bölgesi'nde yer alır."
+        threshold: 0.65
+
+  - description: "Negative - Answer Relevance - Soruyla ilgisiz cevap"
+    vars:
+      input: "Kapadokya hangi bölgede bulunur?"
+    providerOutput: "Japonya'nın başkenti Tokyo'dur."
+    assert:
+      - type: answer-relevance
+        threshold: 0.7
+
+  - description: "Negative - G-Eval - Talimatları karşılamayan cevap"
+    vars:
+      input: "Pamukkale hangi ilde bulunur, neyle tanınır ve gezi için ne kadar zaman ayırmalıyım?"
+    providerOutput: "Pamukkale Türkiye'de bir yerdir."
+    assert:
+      - type: g-eval
+        metric: "Instruction Following"
+        threshold: 0.7
+        value: |
+          Yanıt üç talebi de karşılamalıdır:
+          bulunduğu il, başlıca turistik özellikleri ve gezi için
+          önerilen süre. Bu bilgilerden herhangi birini atlayan
+          veya soruyla ilgisiz cevap veren yanıt başarısız olmalıdır.
