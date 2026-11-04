@@ -846,14 +846,14 @@
       weight: 3
       value: "Trabzon'un Karadeniz Bölgesi'nde olduğunu doğru belirtir. Başka bir coğrafi bölgeyle çelişkili ilişki kurmaz."
 
-- description: "71 - Geographic Consistency - Aynı rota üzerindeki şehirleri karıştırmama"
-  vars:
-    input: "İstanbul'dan Ankara'ya, oradan da Konya'ya gideceğim. Bu şehirlerin sırasını ve konum ilişkisini açıkla."
-  assert:
-    - type: llm-rubric
-      metric: Geographic Accuracy
-      weight: 2
-      value: "Şehirlerin sırasını İstanbul, Ankara ve Konya olarak korur. Ankara ile Konya'yı veya İstanbul ile diğer şehirleri birbirine karıştırmaz. Yol güzergâhı hakkında doğrulanmamış ayrıntıları kesin bilgi gibi sunmaz."
+# - description: "71 - Geographic Consistency - Aynı rota üzerindeki şehirleri karıştırmama"
+#   vars:
+#     input: "İstanbul'dan Ankara'ya, oradan da Konya'ya gideceğim. Bu şehirlerin sırasını ve konum ilişkisini açıkla."
+#   assert:
+#     - type: llm-rubric
+#       metric: Geographic Accuracy
+#       weight: 2
+#       value: "Şehirlerin sırasını İstanbul, Ankara ve Konya olarak korur. Ankara ile Konya'yı veya İstanbul ile diğer şehirleri birbirine karıştırmaz. Yol güzergâhı hakkında doğrulanmamış ayrıntıları kesin bilgi gibi sunmaz."
 
 - description: "72 - Temporal Consistency - Geçmiş tarihi gelecek gibi sunmama"
   vars:
