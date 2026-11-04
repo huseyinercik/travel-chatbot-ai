@@ -1,0 +1,24 @@
+﻿description: "Conversation Relevance - Negative Control"
+
+prompts:
+  - "{{input}}"
+
+providers:
+  - echo
+
+tests:
+  - description: "Negative - Conversation Relevance - Bağlam dışı cevap"
+    vars:
+      _conversation:
+        - input: "Kapadokya gezisi planlamak istiyorum."
+          output: "Kaç gün ayırmayı düşünüyorsunuz?"
+        - input: "3 gün, bütçem 10000 TL."
+          output: "Bütçenizi dikkate alacağım."
+        - input: "Otobüsle gitmek istiyorum."
+          output: "Japonya'nın başkenti Tokyo'dur."
+    assert:
+      - type: conversation-relevance
+        threshold: 0.7
+        provider: openai:gpt-4o-mini
+        config:
+          windowSize: 3

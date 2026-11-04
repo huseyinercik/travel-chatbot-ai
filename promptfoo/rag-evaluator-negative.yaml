@@ -1,0 +1,36 @@
+﻿description: "RAG - Evaluator Negative Controls"
+
+prompts:
+  - "{{answer}}"
+
+providers:
+  - echo
+
+tests:
+  - description: "Negative - Context Faithfulness - Kaynakla çelişen cevap"
+    vars:
+      query: "Kapadokya hangi bölgede bulunur?"
+      context: "Kapadokya, Türkiye'nin İç Anadolu Bölgesi'nde yer alır."
+      answer: "Kapadokya, Ege Bölgesi'nde yer alır."
+    assert:
+      - type: context-faithfulness
+        threshold: 0.7
+
+  - description: "Negative - Context Relevance - İlgisiz kaynak"
+    vars:
+      query: "Kapadokya hangi bölgede bulunur?"
+      context: "İstanbul Boğazı, İstanbul'un Avrupa ve Asya yakalarını birbirinden ayırır."
+      answer: "Kapadokya, İç Anadolu Bölgesi'nde bulunur."
+    assert:
+      - type: context-relevance
+        threshold: 0.7
+
+  - description: "Negative - Context Recall - Eksik kaynak"
+    vars:
+      query: "Kapadokya hangi bölgede bulunur?"
+      context: "Kapadokya, Türkiye'de önemli bir turizm bölgesidir."
+      answer: "Kapadokya, Türkiye'nin İç Anadolu Bölgesi'nde yer alır."
+    assert:
+      - type: context-recall
+        value: "Kapadokya, Türkiye'nin İç Anadolu Bölgesi'nde yer alır."
+        threshold: 0.7
